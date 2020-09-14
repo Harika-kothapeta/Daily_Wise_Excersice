@@ -1,0 +1,183 @@
+a)Create the table PROGRAMMER with the given 
+information using SQL CREATE TABLE command:
+CREATE TABLE PROGRAMMER 
+ ( EmpNo numeric(5) UNIQUE,
+   ProjId varchar(5),
+   LastName varchar(30),
+   FirstName varchar(30),
+   Hiredate  DATE,
+   Language varchar(30),
+   TaskNo numeric(2),
+   Privilege varchar(25),
+ );
+
+b)Insert the following data into the PROGRAMMER table:
+INSERT INTO PROGRAMMER
+    (EmpNo,LastName,FirstName,Hiredate,ProjId,Language,TaskNo,Privilege),
+   VALUES (201,'Gupta','Saurav','1-1-95','NPR','VB',52,'Secret'),
+          (390,'Ghosh','Pinky','1-05-93','KWC','Java',11,'Top Secret'),
+          (789,'Agarwal','Praveen','08-31-98','Rnc','VB',11,'Secret' ),
+          (134,'Chaudhury','Supriyo','07-15-95','TIPPS','C++',52,'Secret'),
+          (896,'Jha','Ranjit','06-15-97','KCW','Java',10,'Top Secret'),
+          (345,'John','Peter','11-15-99','TIPPS','Java',52,''),
+          (563,'Anderson','Andy','08-15-94','NITTS','C++',89,'confidential');
+
+c)Create a table WEATHER with following data:
+CREATE TABLE WEATHER
+(City varchar,
+State varchar,
+High numeric,
+Low numeric);
+INSERT INTO WEATHER
+(City,State,High,Low)
+VALUES('Calcutta','WestBengal',105,90),
+      ('Trivandrum','Kerala',101,92),
+      ('Mumbai','Maharashtra',88,69),
+      ('Bangalore','Karnataka',77,60),
+      ('New Delhi','',80,72);
+
+
+d)Create a table BOOKS with the following data
+CREATE TABLE BOOKS
+(BookId numeric,
+ Title varchar,
+ TopicId varchar,
+ PublisherName  varchar,
+ PlaceofPublication varchar,
+ Price numeric,
+ PurchaseDate DATE,
+ ShelfNo varchar)'
+ PRIMARY KEY(BookId);
+INSERT INTO BOOKS
+(BookId,Title,TopicId,PublisherName,PlaceofPublication,Price,PurchaseDate,ShelfNo)
+VALUES(8293,'DBMS','DB1','Prentice Hall','Mumbai',255,'1-1-95','S11'),
+      (5645,'DBMS','DB1','Pearson Education','Mumbai',655,'1-05-93',S12),
+      (6565,'C','C1','TMH','Mumbai',840,'08-31-98','S66'),
+      (6567,'C++','Cplus1','ABC Publishers','Delhi',300,'07-15-95','S77'),
+      (4576,'JAVA','JAVA1','Guru Govind Publications','Delhi',500,'06-15-97','S87'),
+      (3433,'OOPS','OOPS1','Dave Publishers','Pune','60011-15-99','S56'),
+      (4655,'SAD','SAD1','Sajan Publications','Cochin',700,'08-15-94','S76');
+
+
+e)Write SQL queries to:
+
+i.Saurav Gupta is assigned a different project with id NITTS and he would work with C++ now. Update this change in the PROGRAMMER table.
+UPDATE PROGRAMMER
+SET ProjId = 'NITTS',Language='C++'
+WHERE ProjId = 'NPR',Language='VB';
+
+ii.The books on DBMS are shifted to shelf with number S10. Please update this detail in BOOKS table.
+UPDATE BOOKS
+SET ShelfNo = 'S10'
+WHERE Title = 'DBMS';
+
+iii.Supriyo Chaudhury has resigned his job. Incorporate this change in the table PROGRAMMER.
+DELETE FROM PROGRAMMER
+WHERE LastName='Chaudhury' and FirstName='Supriyo';
+
+iv.A new column to state the nature of the climate with either of the value (rainy, cloudy, sunny, snow) is to be added in the WEATHER Table.
+ALTER TABLE WEATHER
+ADD Climate varchar(30);
+
+
+v.Delete the table WEATHER from database.
+DROP TABLE WEATHER;  
+
+  
+CREATE TABLE CUSTOMER
+(CUSTID numeric(20),
+ FNAME varchar(30),
+ LNAME varchar(30),
+ ADDRESS varchar(50),
+ PHONENO numeric NOT NULL,
+ CITY varchar(20),
+ COUNTRY varchar(20),
+ DATEFIRSTPURCHASED DATE,
+ SUPPLIERID numeric(20),
+ CONSTRAINT custid_pk PRIMARY KEY(CUSTID),
+ CONSTRAINT supplier_fk
+ FOREING KEY(SUPPLIERID)
+ REFERENCES SUPPLIER(SUPPLIERID)
+);
+INSERT INTO CUSTOMER
+  (CUSTID,FNAME,LNAME,ADDRESS,PHONENO,CITY,COUNTRY,DATEFIRSTPURCHASED,SUPPLIERID)
+ VALUES (1001,'Das','Jeyaseelan',119, 'park Avenue,II street',9841093428,'Coimbatore','India','04-jan-2004',1),
+        (2001,'Gopi','Govindraj,241,'I floor, Kamaraj street, Madippakkam',9444124590,'Chennai','India','25-mar-2005',4),
+        (1201,'Dilip','Kishore',43,'II Avenue, Anna Nagar',9997234534,'Bangalore','India','20-aug-2004'2)
+        (1300,'Aanand','Chowdhury,'42/1 sector 1, II Street',9841054348,'Bangalore','India','15-may-2005',2),
+        (1220,'Chandra','Nagarajan','83, lal bagh',98410672356,'Bangalore','India','12-feb-2006,4),
+        (1221,'Abhishek','Kumar','13,kishori park',94447623901,'Chennai','India','15-may-2004',1),
+        (1320,'Nikhil','Pandit','218, alwaanya street',94448923091,'Salem','India','21-apr-2006',3),
+        (1222,'Meenu','Monica','C11, church road',98410563421,'Trichy','India','30-aug-2004',1),
+        (1225,'Pavan','Kumar','128/A, North Mada Street',99934782103,'maduari','India,'18-aug-2004',4);
+
+
+CREATE TABLE SUPPLIER
+(SUPPLIERID numeric(20),
+ SNAME varchar(30),
+ SCITY varchar(30),
+ SPHONE numeric(20) NOT NULL,
+ EMAIL varchar(50) UNIQUE,
+ CONSTRAINT supplierid_pk PRIMARY KEY(SUPPLIERID)
+);
+INSERT INTO SUPPLIER
+  (SUPPLIERID,SNAME,SCITY,SPHONE,EMAIL)
+VALUES (1,'Dilip','Chennai',8999900000,'dilip@abc.co.in'),
+       (2,'Tarun','Madurai',8999911111,'tarun@xyz.com'),
+       (3,'Naresh','Coimbatore',8999922222,'g.naresh@xyzl.com'),
+       (4,'Ganesan','Trichy',8999933333,'Ganesan_83@ijk.com');
+
+
+CREATE TABLE ORDERS
+(ORDERID numeric(20),
+ ORDERDATE DATE,
+ CUSTID numeric(20),
+ QUANTITY numeric(20),
+ ITEMID numeric(20),
+ CONSTRAINT orderid_pk PRIMARY KEY(ORDERID),
+ CONSTRAINT chk_quantity CHECK(QUANTITY>0),
+ CONSTRAINT itemid_fk
+ FOREING KEY(ITEMID)
+ REFERENCES ITEMS(ITEMID)
+);
+INSERT TABLE ORDERS
+(ORDERID,ORDERDATE,CUSTID,QUANTITY,ITEMID)
+VALUES (1,'12-jan-2004',1001,30,25),
+       (2,'6-may-2005',1202,38,24),
+       (3,'16-dec-2006',1220,10,22),
+       (4,'21-may-2004',1233,12,21);
+
+
+
+
+
+CREATE TABLE ITEMS
+(ITEMID numeric(20),
+ ITEMNAME varchar(30) NOT NULL,
+ SUPPLIERID numeric(20),
+ MINQTY numeric NOT NULL,
+ MAXQTY numeric NOT NULL,
+ price numeric(5,2),
+ CONSTRAINT itemid_pk PRIMARY KEY(ITEMID),
+ CONSTRAINT supplierid_fk
+ FOREING KEY(SUPPLIERID )
+ REFERENCES SUPPLIER1(SUPPLIERID)
+);
+INSERT TABLE ITEMS
+(ITEMID,ITEMNAME,SUPPLIERID,MINQTY,MAXQTY,price)
+VALUES
+(20,'Pears Soap',4,7,20,30.00),
+(21,'V.V.D. Coconut oil 200 ml',2,8,15,79.00),
+(22,'Ponds powder 400g',3,6,25,106.00),
+(23,'Reynolds pen- blue',1,10,30,15.00),
+(24,'Reynolds pen- black',1,10,30,16.00),
+(25,'Mysore sandal soap',4,7,25,25.00),
+(26,'Fair & lovely cream- 50g',35,15,55.00),
+(27,'Rexono deo spary',2,5,20,100.00),
+(28,'Dove soap',4,7,15,85.00);
+
+
+
+
+
+   
